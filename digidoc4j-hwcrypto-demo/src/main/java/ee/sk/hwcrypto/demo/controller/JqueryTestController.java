@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ee.sk.hwcrypto.demo.model.Isik;
 
-
+//test.html kasutab
 
 @RestController
 public class JqueryTestController {

@@ -1,4 +1,4 @@
-# DigiDoc4j hwcrypto demo webapp
+# DigiDoc4j hwcrypto demo webapp, testimise jupid, tehtd ümber digidoc4j 2.1.0 peale ja spring boot 2.0.5
 
 This is a Demo webapp for digital signing in **testing** environment with the 
 combination of [hwcrypto.js](https://github.com/open-eid/hwcrypto.js/wiki) on 

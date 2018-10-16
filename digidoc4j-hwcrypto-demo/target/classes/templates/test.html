@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Testimine</title>
+	<!-- https://www.w3schools.com/jquery/jquery_ajax_get_post.asp -->
+</head>
+<body>
+	Hello Maa <button id="batt">Send an HTTP GET request</button>
+	<hr/>
+	<button id="pbatt">Send an HTTP POST request</button>
+	<button id="pbatta">Send an HTTP POST JSON request</button><button id="pthen">Send an HTTP THEN request</button>
+	<hr/>
+	<label id="label1">Label1</label>&nbsp;<label id="label2">Label2</label>&nbsp;<label id="label3">Label3</label>
+</body>
+<footer>
+	<script src="js/jquery-3.3.1.js"></script>
+	<script>
+		$(function(){
+			$("#batt").on("click",function(){
+		        $.get("/demo", function(data, status){
+		            alert("Data: " + data + "\nStatus: " + status);
+		        });
+		    });
+						
+		    ////'{ "name":"John", "city":"New York"}',
+		    $("#pbatt").click(function(){
+		        $.post("/then","Mingitekst", 
+ 		        function(data, status){
+		        	$("#label1").html(status);	
+		        	
+		        	//testcry - global muutuja testcrypto.js skriptist
+		        	var crt=window.testcry;
+		        	$("#label2").html(crt);
+		        	
+		        	//Function Expression
+		        	var ort= new window.testcrypto();
+		        	$("#label3").html(ort.annatekst("ai"));
+		        	
+		            //alert("Data: " + data + "\nStatus: " + status);
+		        });
+		    });		
+		  //ajax POST päring, mis serveri poolel pööratakse kohe JSON objektist Isik klassiks
+		    $("#pbatta").click(function(){		    		
+		    	$.ajax ({
+		    	    url: "/demo",
+		    	    type: "POST",
+		    	    data: JSON.stringify({ "name":"Donald Trump", "city":"Duck City"}),
+		    	    dataType: "json",
+		    	    contentType: "application/json; charset=utf-8",
+		    	    success: function(data, status){
+		    	    	alert("Data: " + data + "\nStatus: " + status);
+		    	    }
+		    	});		    	
+		    			    
+		    });
+		  
+		    //TÖÖTAB
+/* 		    $(document).on("click", "#pthen", function(event) {
+		        event.preventDefault();
+		        console.log("PTHEN button pressed");
+		        getAndmed();
+		    });
+ */		    
+
+	   	     function getDemoAndmed()
+			 {
+			 	$.get("/demo", function(data){
+			 		$("#label1").html(data);	
+			 		 console.log("getDemoAndmed: "+data); //filled!
+			 	     return data; 		            
+			     }).then(function(si) {
+			     	getMemoAndmed(si);
+			      });	
+			 }
+			 
+			 function getMemoAndmed(andmed)
+			 {
+			 	$.get("/memo", function(data){
+			 		$("#label2").html(data);	
+			 		 console.log("getMemoAndmed: "+data+"   Parameeter andmed:"+andmed); //filled!
+			 	     return data; 		            
+			     });	
+			 }
+ 
+			//mitme meetodi väljakutsumine järjest .tehn
+ 		    $("#pthen").on("click",function(event) {
+		        event.preventDefault(); //buttoni enda click meetodit välja ei kutsu
+		        console.log("PTHEN button pressed enne getDemoAndmed");
+		        getDemoAndmed();
+		    }); 
+ 
+			// $("#pthen").on("click",getDemoAndmed()); //teeb kohe meetodite poole pöördumise
+ 
+
+		    
+		});
+	</script>
+	<script src="js/testcrypto.js"></script>		
+</footer>
+</html>

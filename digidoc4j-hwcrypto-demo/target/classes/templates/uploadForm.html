@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div>Seadistus peab olema: spring.servlet.multipart.enabled=true</div>
+	<div th:if="${message}">
+		<h2 th:text="${message}" ></h2>
+	</div>
+	<div th:if="${bmess}">
+		<h2 th:text="${bmess}" ></h2>
+	</div>
+	<div th:if="${signature}">Signatuurid
+		<h2 th:text="${signature}" ></h2>
+	</div>
+	<div th:if="${vcontainererrors}">ContainerErrors:
+		<h2 th:text="${vcontainererrors}" ></h2>
+	</div>
+	<div th:if="${verrors}">ValidationErrors:
+		<h2 th:text="${verrors}" ></h2>
+	</div>
+	<div th:if="${vwarnings}">ValidationWarnings:
+		<h2 th:text="${vwarnings}" ></h2>
+	</div>
+
+	<div th:if="${sigerrors}">SignatureErrors:
+		<h2 th:text="${sigerrors}" ></h2>
+	</div>
+	<div th:if="${sigwarnings}">SignatureWarnings:
+		<h2 th:text="${sigwarnings}" ></h2>
+	</div>
+	
+	<div>
+		<form method="POST" enctype="multipart/form-data" th:action="@{/files}">  <!-- spring.servlet.multipart.enabled=true -->
+			<table>
+				<tr><td>File to upload:</td><td><input type="file" name="fail" /></td></tr>
+				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+			</table>
+		</form>
+	</div>
+
+	<div>
+		<ul>
+			<li th:each="file : ${files}">
+				<a th:href="${file}" th:text="${file}" ></a>
+			</li>
+		</ul>
+	</div>
+
+	<div th:if="${bfailid}">
+		<ol>
+			<li th:each="fail : ${bfailid}">
+				<label th:text="${fail.filename}" ></label>
+			</li>
+		</ol>
+	</div>
+
+</body>

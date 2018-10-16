@@ -52,8 +52,5 @@ public class JqueryTestController {
 		vast.setCity(inimene.getCity());
 		vast.setName(inimene.getName());
 		return vast;	
-	}
-	
-	
-	
+	}	
 }

@@ -29,6 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import eu.europa.esig.dss.x509.CertificateToken;
+
 import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -36,16 +38,56 @@ import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.List;
 
 @Service
 public class FileSigner {
 
     private static final Logger log = LoggerFactory.getLogger(FileSigner.class);
     private static final DigestAlgorithm DIGEST_ALGORITHM = DigestAlgorithm.SHA256;
-    private Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    private Configuration configuration = new Configuration(Configuration.Mode.TEST);  //http://demo.sk.ee/ocsp
 
-
-    public Container createContainer(DataFile dataFile) {
+    
+    
+    public Container createContainer(DataFile dataFile) {    	
+    	//Configuration configuration = Configuration.getInstance(); //see annab alati välja PROD keskkonna andmed   	    	
+    	configuration.setTrustedTerritories("EE");
+    	
+    	/*
+    	org.digidoc4j.TSLCertificateSource tsl = configuration.getTSL();
+    	List<CertificateToken> ts = tsl.getCertificates();
+    	String ssd ;
+    	for (CertificateToken ct : ts)
+    	{
+    		ssd = ct.getEncryptionAlgorithm().getName();
+    		System.out.println("EncryptionAlgorithm "+ssd);
+    		ssd=ct.getDigestAlgorithm().getName();
+    		System.out.println("DigestAlgorithm "+ssd);
+    		ssd=ct.getDigestAlgorithm().getJavaName();
+    		System.out.println("JavaName "+ssd);
+    	}  */
+        String ger =  configuration.getOcspSource();
+        System.out.println("OCSP aadress: "+ger);
+        ger=configuration.getTspSource();
+        System.out.println("TspSource: "+ger);
+        ger=configuration.getTslKeyStoreLocation();
+        System.out.println("TslKeyStoreLocation: "+ger);
+//        ger=configuration.getTslKeyStorePassword();
+//        System.out.println("TslKeyStorePassword: "+ger);  //digidoc4j-password
+        
+        
+        configuration.setOcspSource("http://ocsp.sk.ee/");
+        configuration.setTspSource("http://tsa.sk.ee");
+        configuration.setTslKeyStoreLocation("keystore/keystore.jks");
+        
+        
+        ger =  configuration.getOcspSource();
+        System.out.println("OCSP uus aadress: "+ger);
+        ger=configuration.getTspSource();
+        System.out.println("Uus TspSource: "+ger);
+        ger=configuration.getTslKeyStoreLocation();
+        System.out.println("Uus TslKeyStoreLocation: "+ger);
+        
         Container container = BDocContainerBuilder.
                 aContainer().
                 withDataFile(dataFile).
@@ -61,6 +103,7 @@ public class FileSigner {
                 withSigningCertificate(certificate).
                 withSignatureDigestAlgorithm(DIGEST_ALGORITHM).
                 withSignatureProfile(SignatureProfile.LT_TM).
+                //withSignatureProfile(SignatureProfile.B_BES).
                 buildDataToSign();
         return dataToSign;
     }

@@ -100,7 +100,8 @@ public class SigningController {
             session.setContainer(container);
             return Result.resultOk();
         } catch (Exception e) {
-            log.error("Error Signing document", e);
+        	System.out.println("createConteiner error: "+e.getMessage());
+            log.error("Error Signing document "+e.getMessage(), e);
         }
         return Result.resultSigningError();
     }

@@ -66,27 +66,34 @@ public class FileSigner {
     		ssd=ct.getDigestAlgorithm().getJavaName();
     		System.out.println("JavaName "+ssd);
     	}  */
+    	
+    	/*
         String ger =  configuration.getOcspSource();
         System.out.println("OCSP aadress: "+ger);
         ger=configuration.getTspSource();
         System.out.println("TspSource: "+ger);
         ger=configuration.getTslKeyStoreLocation();
         System.out.println("TslKeyStoreLocation: "+ger);
+        ger = configuration.getTslLocation();
+        System.out.println("TslLocation: "+ger);
+        */
 //        ger=configuration.getTslKeyStorePassword();
 //        System.out.println("TslKeyStorePassword: "+ger);  //digidoc4j-password
         
         
         configuration.setOcspSource("http://ocsp.sk.ee/");
         configuration.setTspSource("http://tsa.sk.ee");
-        configuration.setTslKeyStoreLocation("keystore/keystore.jks");
-        
-        
-        ger =  configuration.getOcspSource();
+        configuration.setTslKeyStoreLocation("keystore/keystore.jks");        
+        configuration.setTslLocation("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-mp.xml");
+                
+        String ger =  configuration.getOcspSource();
         System.out.println("OCSP uus aadress: "+ger);
         ger=configuration.getTspSource();
         System.out.println("Uus TspSource: "+ger);
         ger=configuration.getTslKeyStoreLocation();
         System.out.println("Uus TslKeyStoreLocation: "+ger);
+        ger=configuration.getTslLocation();
+        System.out.println("Uus TslLocation: "+ger);
         
         Container container = BDocContainerBuilder.
                 aContainer().
